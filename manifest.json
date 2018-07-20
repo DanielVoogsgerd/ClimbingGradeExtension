@@ -1,0 +1,17 @@
+{
+"manifest_version": 2,
+    "name": "Climbing grade enhancer",
+    "description": "Enhanced the climbing grade with hint in the French system",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_end"
+        }
+    ]
+}
