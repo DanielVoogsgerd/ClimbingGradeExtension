@@ -15,7 +15,7 @@ HUECO = {
 	'13': '8b',
 	'14': '8b+',
 	'15': '8c',
-}
+};
 
 YDS = {
 	'1': '1',
@@ -48,37 +48,35 @@ YDS = {
 	'14c': '8c+',
 	'14d': '9a',
 	'15a': '9a+',
-}
+};
 
 
 var elements = document.getElementsByTagName('*');
 
-for (var i = 0; i < elements.length; i++) {
-	var element = elements[i];
+for(element of elements) {
+	for(node of element.childNodes) {
 
-	for (var j = 0; j < element.childNodes.length; j++) {
-		var node = element.childNodes[j];
+		if (node.nodeType !== 3)
+			continue;
 
-		if (node.nodeType === 3) {
-			const text = node.nodeValue;
-			let replacedText = text
-			replacedText = replacedText.replace(/V(\d{1,2})/gi, function(match, grade) {
-				if(grade in HUECO)
-					return 'V' + grade + ' (' + HUECO[grade] + ')';
-				else
-					return match;
-			});
+		const text = node.nodeValue;
+		let replacedText = text;
+		replacedText = replacedText.replace(/V(\d{1,2})(?:\/(\d{1,2}))?/gi, function(match, grade, grade2) {
+			if(grade in HUECO)
+				return 'V' + grade + (grade2 ? '/' + grade2 : '') + ' (' + HUECO[grade] + (grade2 && grade2 in HUECO ? '/' + HUECO[grade2] : '') + ')';
+			else
+				return match;
+		});
 
-			replacedText = replacedText.replace(/5.(\d{1,2}[a-d]?)/gi, function(match, grade) {
-				if(grade in YDS)
-					return '5.' + grade + ' (' + YDS[grade] + ')';
-				else
-					return match;
-			});
+		replacedText = replacedText.replace(/5.(\d{1,2}[a-d]?)/gi, function(match, grade) {
+			if(grade in YDS)
+				return '5.' + grade + ' (' + YDS[grade] + ')';
+			else
+				return match;
+		});
 
-			if (replacedText !== text) {
-				element.replaceChild(document.createTextNode(replacedText), node);
-			}
+		if (replacedText !== text) {
+			element.replaceChild(document.createTextNode(replacedText), node);
 		}
 	}
 }
