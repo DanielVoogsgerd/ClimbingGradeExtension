@@ -54,7 +54,7 @@ YDS = {
 var elements = document.getElementsByTagName('*');
 
 for(element of elements) {
-	if(element.nodeName.toLowerCase( in ['script', 'style'])
+	if(element.nodeName.toLowerCase() in ['script', 'style'])
 		continue;
 
 	for(node of element.childNodes) {
